@@ -1,33 +1,16 @@
 import argparse
-import os
 from fasta_dict import fasta_func
 from fastq_dict import fastq_func
-
-# input: x from fasta_dict.py
-# input: p from fast1_dict.py
-
-# script: align p to x using the naive algorithm. 
-# return name(x), name(p), start index (from 1), cigar (M only), p.
-
-# functions: alignment function, returning index
-# cigar function called on in alignment function?
-
-# output: simple_sam format. Use pd dataframe maybe?
 
 def naive_align(x, p):
 
     match_indexes = []
-    for i in x:
-        for j in p:
-            if j == len(p):
-                if x[i+j] == p[j]:
-                    match_indexes.append(i+1) # indexing from 1
-                else:
-                    break
-            elif x[i+j] == p[j]:
-                continue
-            else:
+    for i in range(len(x)-len(p)+1):
+        for j, el_p in enumerate(p):
+            if x[i+j]!=el_p:
                 break
+        else:
+            match_indexes.append(i+1)
     
     return match_indexes
 
@@ -36,11 +19,11 @@ def output(x_name, p_name, i, p):
     aligned at index i. The function prints the data in a simple sam-format'''
     
     return print(p_name, x_name, i, f'{str(len(p))}M', p, sep = '\t')
-
+    
 
 def main():
+    # OBS only works with exact matches
 
-    # fasta files here
     argparser = argparse.ArgumentParser(
         description="Extract Simple-FASTA and Simple-FASTQrecords"
     )
@@ -52,8 +35,11 @@ def main():
     fasta_dict = fasta_func(args.fasta)
     fastq_dict = fastq_func(args.fastq)
 
-    pass
-
+    for kp, vp in fastq_dict.items():
+        for kx, vx in fasta_dict.items():
+            index_list = naive_align(vx, vp)
+            for i in index_list:
+                output(kx, kp, i, vp)
 
 if __name__ == '__main__':
     main()
