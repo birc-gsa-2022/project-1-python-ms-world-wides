@@ -5,7 +5,7 @@ from ast import pattern
 from fasta_dict import fasta_func
 from fastq_dict import fastq_func
 
-
+#
 def border_algo(x,p):
     #edge case
     if p == "" or x == "":
