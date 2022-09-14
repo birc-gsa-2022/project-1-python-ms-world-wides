@@ -1,0 +1,22 @@
+def border_array(x: str) -> list[int]:
+    """
+    Construct the border array for x.
+
+    >>> border_array("aaba")
+    [0, 1, 0, 1]
+    >>> border_array("ississippi")
+    [0, 0, 0, 1, 2, 3, 4, 0, 0, 1]
+    >>> border_array("")
+    []
+    """
+    ba = []
+    if (x==""):
+        return ba
+    ba.append(0)
+    for i in range (len(x)-1):
+        if(x[ba[i]]==x[i+1]):
+            ba.append(ba[i]+1)
+        else:
+            ba.append(0)
+
+    return ba
