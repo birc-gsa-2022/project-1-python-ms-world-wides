@@ -32,8 +32,8 @@ def naive_runner(fasta_dict, fastq_dict):
     return string
 
 def main():
-    # OBS only works with exact matches
-    # help
+
+    
     argparser = argparse.ArgumentParser(
         description="Extract Simple-FASTA and Simple-FASTQrecords"
     )

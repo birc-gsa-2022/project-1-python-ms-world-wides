@@ -77,18 +77,3 @@ def random_sequence_generator(length, s, type, name, uniform = False, uni_index 
         sequence_list.append(''.join(stringlist))
 
         return sequence_list
-
-def main():
-    # newname = cleanup_fasta('src/drosophila_melanogaster_genome.gz')
-
-    newname = 'src/sample_sequence.gz'
-
-    # type = 'fasta'
-    # gsg = genome_sequence_generator(newname, 20, 1, type, name)
-    # print(gsg)
-    # rsg = random_sequence_generator(20, 1, type, name, uniform = True, uni_index = 1)
-    # print(rsg)
-
-
-if __name__ == '__main__':
-    main()

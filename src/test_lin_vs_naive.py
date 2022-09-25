@@ -20,8 +20,6 @@ def test_special():
     
 
 def test_random():
-    a = random_sequence_generator(100, 8, 'fasta','fastaa100')
-    fastaa = fasta_func(a)
     fasta100 = fasta_func(random_sequence_generator(100, 8, 'fasta','fastaa100'))
     fastq4 = fastq_func(random_sequence_generator(4, 0, 'fastq','fastq4'))
 
