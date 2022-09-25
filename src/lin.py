@@ -51,15 +51,11 @@ def lin_runner(fasta_dict, fastq_dict):
 
 def main():
 
-    with open('src/simple_fasta.txt', 'r') as f:
-        fasta_dict = fasta_func(f)
-    with open('src/simple_fastq.txt', 'r') as q:
-        fastq_dict = fastq_func(q)
+    # with open('src/simple_fasta.txt', 'r') as f:
+    #     fasta_dict = fasta_func(f)
+    # with open('src/simple_fastq.txt', 'r') as q:
+    #     fastq_dict = fastq_func(q)
 
-    print(lin_runner(fasta_dict, fastq_dict))
-
-
-    '''
     argparser = argparse.ArgumentParser(
         description="Exact matching in linear time")
     argparser.add_argument("genome", type=argparse.FileType('r'))
