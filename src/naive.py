@@ -32,24 +32,20 @@ def naive_runner(fasta_dict, fastq_dict):
     return string
 
 def main():
-    # OBS only works with exact matches
-    # help
+
+
     argparser = argparse.ArgumentParser(
         description="Extract Simple-FASTA and Simple-FASTQrecords"
     )
-    argparser.add_argument("fasta", type=argparse.FileType('r'))
-    argparser.add_argument("fastq", type=argparse.FileType('r'))
+    argparser.add_argument("genome", type=argparse.FileType('r'))
+    argparser.add_argument("reads", type=argparse.FileType('r'))
 
     args = argparser.parse_args()
 
-    fasta_dict = fasta_func(args.fasta)
-    fastq_dict = fastq_func(args.fastq)
+    fasta_dict = fasta_func(args.genome)
+    fastq_dict = fastq_func(args.reads)
 
-    for kp, vp in fastq_dict.items():
-        for kx, vx in fasta_dict.items():
-            index_list = naive_align(vx, vp)
-            for i in index_list:
-                output(kx, kp, i, vp)
+    print(naive_runner(fasta_dict, fastq_dict))
 
 if __name__ == '__main__':
     main()
