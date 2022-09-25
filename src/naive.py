@@ -24,7 +24,7 @@ def output(x_name, p_name, i, p):
 
 def main():
     # OBS only works with exact matches
-    #
+    # help
     argparser = argparse.ArgumentParser(
         description="Extract Simple-FASTA and Simple-FASTQrecords"
     )
