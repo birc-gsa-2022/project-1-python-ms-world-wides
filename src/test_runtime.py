@@ -1,7 +1,7 @@
 from sequence_generator import genome_sequence_generator
 from lin import
 from naive import 
-
+#try
 # test for naive uses no more time than O(nm)
 
 #check 
