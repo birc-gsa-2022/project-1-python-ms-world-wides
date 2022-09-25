@@ -26,11 +26,13 @@ def border_algo(x,p):
             ba[i] = 0
 
     #filter matches with length of pattern
-    result = []
-    for i in range(len(p)-1, len(ba)):
-        if ba[i] == len(p):
-            result.append(i-len(p)-2) # does this work?
+    result = []  
+    for i in range(0, len(x)):
+        border_length = ba[i+len(p)+1] # ba[j]
+        if border_length == len(p):
+            result.append(i-len(p)+2) # does this work?
     return result
+
 
 #prints the data in a simple sam-format
 def output(x_name, p_name, i, p):
@@ -39,11 +41,11 @@ def output(x_name, p_name, i, p):
 def lin_runner(fasta_dict, fastq_dict):
 
     string = ''
-    for p in fastq_dict:
-        for x in fasta_dict:
-            matches = border_algo(fasta_dict[x], fastq_dict[p])
+    for p_key, p_val in fastq_dict.items():
+        for x_key, x_val in fasta_dict.items():
+            matches = border_algo(x_val, p_val)
             for i in matches:
-                string += output(x, p, i, fastq_dict[p]) + '\n'
+                string += output(x_key, p_key, i, p_val) + '\n'
     
     return string
 
@@ -54,7 +56,7 @@ def main():
     with open('src/simple_fastq.txt', 'r') as q:
         fastq_dict = fastq_func(q)
 
-    print(runner(fasta_dict, fastq_dict))
+    print(lin_runner(fasta_dict, fastq_dict))
 
 
     '''

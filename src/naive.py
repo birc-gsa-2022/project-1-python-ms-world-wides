@@ -18,16 +18,16 @@ def output(x_name, p_name, i, p):
     '''Function that takes the name of sequence x to which the pattern p (p_name) has been exactly
     aligned at index i. The function prints the data in a simple sam-format'''
     
-    return print(p_name, x_name, i, f'{str(len(p))}M', p, sep = '\t')
+    return '\t'.join([p_name, x_name, str(i), f'{str(len(p))}M', p])
     
 def naive_runner(fasta_dict, fastq_dict):
 
     string = ''
-    for p in fastq_dict:
-        for x in fasta_dict:
-            matches = naive_align(fasta_dict[x], fastq_dict[p])
+    for p_key, p_val in fastq_dict.items():
+        for x_key, x_val in fasta_dict.items():
+            matches = naive_align(x_val, p_val)
             for i in matches:
-                string += output(x, p, i, fastq_dict[p]) + '\n'
+                string += output(x_key, p_key, i, p_val) + '\n'
     
     return string
 
