@@ -113,6 +113,10 @@ A random sequence generator was created. This combines the four bases in random 
 
 * An experiment that verifies that your implementations of `lin` use no more time than O(n+m) to find all occurrences of a given pattern in a text. Remember to explain your choice of test data. What are “best” and “worst” case inputs?
 
+The linear should have linear runtime. By doubling m the linear time should move up.
+
+To compare the naive to the linear border algorithm, the same input data should preferably be used. We therefore used the genome sequence generator and varying the length n of x with constant length m of p, and varying m with constant n respectively.
+
 You can insert pictures here like this:
 
 ```
