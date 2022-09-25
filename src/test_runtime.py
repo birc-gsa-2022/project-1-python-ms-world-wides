@@ -1,11 +1,13 @@
 import time
-#from matplotlib import pyplot as plt
+from turtle import color
+import matplotlib.pyplot as plt
 # hello hello 
 from sequence_generator import genome_sequence_generator
 from fasta_dict import fasta_func
 from fastq_dict import fastq_func
 from lin import lin_runner
 from naive import naive_runner
+import numpy as np
 
 def change_fasta_length(fastqlen, iterations):
     fasta_seq = []
@@ -14,30 +16,28 @@ def change_fasta_length(fastqlen, iterations):
     runtime_naive = []
 
 
-    fastq_seq += genome_sequence_generator('src/sample_sequence.gz', fastqlen, i+5, 'fastq', f'read{i+1}')
+    fastq_seq += genome_sequence_generator('src/sample_sequence.gz', fastqlen, 1, 'fastq', f'read{2}')
 
-    for j in range(0,1000,100):
+    for j in range(0,1000,10):
         for i in range(iterations):
             fasta_seq += genome_sequence_generator('src/sample_sequence.gz', j, i, 'fasta', f'seq{i+1}')
 
         fasta_d = fasta_func(fasta_seq)
         fastq_d = fastq_func(fastq_seq)
-        
-        print('Lin:')
+
         # measure runtime linear algorithm
         startTime_lin = time.time()
         lin_runner(fasta_d, fastq_d)
         executionTime_lin = (time.time() - startTime_lin)
         runtime_lin.append(executionTime_lin)
 
-        print('Naive')
         # measure runtime naive algorithm
         startTime_naive = time.time()
         naive_runner(fasta_d, fastq_d)
         executionTime_naive = (time.time() - startTime_naive)
         runtime_naive.append(executionTime_naive)
 
-    return(range(0,1000,100), runtime_lin, runtime_naive)
+    return(range(0,1000,10), runtime_lin, runtime_naive)
 
 def change_fastq_length(fastalen, iterations):
     fasta_seq = []
@@ -45,48 +45,60 @@ def change_fastq_length(fastalen, iterations):
     runtime_lin = []
     runtime_naive = []
 
-    fasta_seq += genome_sequence_generator('src/sample_sequence.gz', fastalen, i, 'fasta', f'seq{i+1}')
+    fasta_seq += genome_sequence_generator('src/sample_sequence.gz', fastalen, 1, 'fasta', f'seq{2}')
 
-    for j in range(0,1000,100):
+    for j in range(0,100,1):
         for i in range(iterations):
             fastq_seq += genome_sequence_generator('src/sample_sequence.gz', j, i+5, 'fastq', f'read{i+1}')
 
         fasta_d = fasta_func(fasta_seq)
         fastq_d = fastq_func(fastq_seq)
-        
-        print('Lin:')
+
         # measure runtime linear algorithm
         startTime_lin = time.time()
         lin_runner(fasta_d, fastq_d)
         executionTime_lin = (time.time() - startTime_lin)
         runtime_lin.append(executionTime_lin)
 
-        print('Naive')
         # measure runtime naive algorithm
         startTime_naive = time.time()
         naive_runner(fasta_d, fastq_d)
         executionTime_naive = (time.time() - startTime_naive)
         runtime_naive.append(executionTime_naive)
 
-    return(range(0,1000,100), runtime_lin, runtime_naive)
+    return(range(0,100,1), runtime_lin, runtime_naive)
 
 def plot_runtime(fastalen, fastqlen, iterations):
     #plot increasing fasta length
+
+
     x, runtime_lin, runtime_naive = change_fasta_length(fastqlen, iterations)
-    plt.plot(x, runtime_lin)
-    plt.plot(x, runtime_naive)
+    #expected_naive_fa = list(np.array(x)*fastqlen)
+    #expected_lin_fa = list(np.array(x)+fastqlen)
+
+    plt.plot(x, runtime_lin,color="blue")
+    plt.plot(x, runtime_naive, color="red")
+    #plt.plot(x, expected_naive_fa, color="pink" )
+    #plt.plot(x, expected_lin_fa, color="green" )
     plt.show()
     
     #plot increasing fastq length
     x, runtime_lin, runtime_naive = change_fastq_length(fastalen, iterations)
-    plt.plot(x, runtime_lin)
-    plt.plot(x, runtime_naive)
+    #expected_naive_fq = list(np.array(x)*fastalen)
+    #expected_lin_fq = list(np.array(x)+fastalen)
+
+
+    plt.plot(x, runtime_lin, color="blue")
+    plt.plot(x, runtime_naive, color="red")
+    #plt.plot(x, expected_naive_fq, color="pink" )
+    #plt.plot(x, expected_lin_fq, color="green" )
+
     plt.show()
 
 
 
 def main():
-    plot_runtime(100, 10, 10)
+    plot_runtime(1000, 10, 10)
 # test for naive uses no more time than O(nm)
 
 
