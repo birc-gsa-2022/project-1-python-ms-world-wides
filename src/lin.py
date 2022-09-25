@@ -61,7 +61,7 @@ def main():
     fasta_dict = fasta_func(args.genome)
     fastq_dict = fastq_func(args.reads)
 
-    print(lin_runner(fasta_dict, fastq_dict))
+    return lin_runner(fasta_dict, fastq_dict)
 
 
 if __name__ == '__main__':
