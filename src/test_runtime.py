@@ -98,9 +98,6 @@ if __name__ == '__main__':
     main()
 
 #check 
-# Remember to explain your choice of test data. 
-
-
 # best-case input:  x = A^n y = B^m
 # worst-case input: x = A^n y = A^m
 
