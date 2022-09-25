@@ -11,24 +11,22 @@ from naive import naive_runner
 
 def main():
     fasta_seq = []
+    fastalen = 100
     fastq_seq = []
-    for i in range(2):
-        fasta_seq += genome_sequence_generator('src/sample_sequence.gz', 50, i, 'fasta', f'seq{i+1}')
-        fastq_seq += genome_sequence_generator('src/sample_sequence.gz', 3, i+5, 'fastq', f'read{i+1}')
-
-    print(fasta_seq)
-    print(fastq_seq)
+    fastqlen = 5
+    iterations = 10
+    for i in range(iterations):
+        fasta_seq += genome_sequence_generator('src/sample_sequence.gz', fastalen, i, 'fasta', f'seq{i+1}')
+        fastq_seq += genome_sequence_generator('src/sample_sequence.gz', fastqlen, i+5, 'fastq', f'read{i+1}')
 
     fasta_d = fasta_func(fasta_seq)
-    print(fasta_d)
     fastq_d = fastq_func(fastq_seq)
-    print(fastq_d)
+
     print('Lin:')
     print(lin_runner(fasta_d, fastq_d))
     print('Naive')
     print(naive_runner(fasta_d, fastq_d))
 
-    return 0
 
 if __name__ == '__main__':
     main()
