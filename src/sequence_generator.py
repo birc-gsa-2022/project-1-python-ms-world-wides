@@ -76,7 +76,7 @@ def random_sequence_generator(length, s, type, name, uniform = False, uni_index 
         random.seed(s)
 
         stringlist = [alpha[random.randint(0,3)] for i in range(length)]
-        sequence_list += ''.join(stringlist)
+        sequence_list.append(''.join(stringlist))
 
         return sequence_list
 
