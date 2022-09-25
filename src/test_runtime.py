@@ -1,6 +1,6 @@
 import time
 from matplotlib import pyplot as plt
-# hello
+# hello hello 
 from sequence_generator import genome_sequence_generator
 from fasta_dict import fasta_func
 from fastq_dict import fastq_func
