@@ -50,7 +50,6 @@ def lin_runner(fasta_dict, fastq_dict):
     return string
 
 def main():
-
     
     argparser = argparse.ArgumentParser(
         description="Exact matching in linear time")
