@@ -1,5 +1,5 @@
 import time
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 # hello hello 
 from sequence_generator import genome_sequence_generator
 from fasta_dict import fasta_func
