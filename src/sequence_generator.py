@@ -32,13 +32,12 @@ def cleanup_fasta(fasta_file):
 def genome_sequence_generator(genome_file, seq_length, s, type):
     '''Function that takes a gzipped genome file to generate a sequence of length n from
     the genome sequence between the random (with seed s) index i and i+n.'''
-    
+
+    sequence_list = []
     if type == 'fasta':
-        sequence = '>fastaname\n'
+        sequence_list.append(f'>fastaname_len{seq_length}\n')
     elif type == 'fastq':
-        sequence = '@fastqname\n'
-    else:
-        sequence = ''
+        sequence_list.append(f'@fastqname_len{seq_length}\n')
 
     f = gzip.open(genome_file, 'rt')
     lines = f.readlines()[0]
@@ -47,27 +46,27 @@ def genome_sequence_generator(genome_file, seq_length, s, type):
 
     if file_len <= seq_length:
         print('Requested sequence length too long')
-        return ''
+        return []
     
     else:
         random.seed(s)
 
         start = random.randint(0,file_len-seq_length)
-        sequence += lines[start:start+seq_length]
+        sequence_list.append(lines[start:start+seq_length])
 
-        return sequence
+        return sequence_list
 
     
 def random_sequence_generator(length, s, type, uniform = False, uni_index = 0):
     '''Function that randomize , using seed s, a sequence of bases with given length.
     If uniform is set to True, the sequence will be of a single base according to uni_index.'''
-    
+    sequence_list = []
     if type == 'fasta':
-        string = '>fastaname\n'
+        sequence_list = f'>fastaname_len{length}\n'
     elif type == 'fastq':
-        string = '@fastqname\n'
+        sequence_list = f'@fastqname_len{length}\n'
     else:
-        string = ''
+        sequence_list = ''
 
     alpha = ['a','t','c', 'g']
 
@@ -77,14 +76,14 @@ def random_sequence_generator(length, s, type, uniform = False, uni_index = 0):
         random.seed(s)
 
         stringlist = [alpha[random.randint(0,3)] for i in range(length)]
-        string += ''.join(stringlist)
+        sequence_list += ''.join(stringlist)
 
-        return string
+        return sequence_list
 
 def main():
-    newname = cleanup_fasta('src/drosophila_melanogaster_genome.gz')
+    # newname = cleanup_fasta('src/drosophila_melanogaster_genome.gz')
 
-    #newname = 'src/sample_sequence.gz'
+    newname = 'src/sample_sequence.gz'
 
     # type = 'fasta'
     # gsg = genome_sequence_generator(newname, 20, 1, type)
