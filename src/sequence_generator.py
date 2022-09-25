@@ -58,10 +58,17 @@ def genome_sequence_generator(genome_file, seq_length, s, type):
         return sequence
 
     
-def random_sequence_generator(length, s, uniform = False, uni_index = 0):
+def random_sequence_generator(length, s, type, uniform = False, uni_index = 0):
     '''Function that randomize , using seed s, a sequence of bases with given length.
     If uniform is set to True, the sequence will be of a single base according to uni_index.'''
     
+    if type == 'fasta':
+        string = '>fastaname\n'
+    elif type == 'fastq':
+        string = '@fastqname\n'
+    else:
+        string = ''
+
     alpha = ['a','t','c', 'g']
 
     if uniform == True:
@@ -70,7 +77,7 @@ def random_sequence_generator(length, s, uniform = False, uni_index = 0):
         random.seed(s)
 
         stringlist = [alpha[random.randint(0,3)] for i in range(length)]
-        string = ''.join(stringlist)
+        string += ''.join(stringlist)
 
         return string
 
@@ -82,7 +89,7 @@ def main():
     # type = 'fasta'
     # gsg = genome_sequence_generator(newname, 20, 1, type)
     # print(gsg)
-    # rsg = random_sequence_generator(20, 1, uniform = True, uni_index = 1)
+    # rsg = random_sequence_generator(20, 1, type, uniform = True, uni_index = 1)
     # print(rsg)
 
 
