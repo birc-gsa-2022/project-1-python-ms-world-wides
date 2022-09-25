@@ -1,11 +1,9 @@
 """Implementation of a linear time exact matching algorithm."""
 
 import argparse
-from ast import pattern
 from fasta_dict import fasta_func
 from fastq_dict import fastq_func
 
-#
 def border_algo(x,p):
     #edge case
     if p == "" or x == "":
@@ -31,14 +29,35 @@ def border_algo(x,p):
     result = []
     for i in range(len(p)-1, len(ba)):
         if ba[i] == len(p):
-            result.append(i-len(p)-1)
+            result.append(i-len(p)-2) # does this work?
     return result
 
 #prints the data in a simple sam-format
 def output(x_name, p_name, i, p):
-    return print(p_name, x_name, i, f'{str(len(p))}M', p, sep = '\t')
+    return '\t'.join([p_name, x_name, str(i), f'{str(len(p))}M', p])
+
+def lin_runner(fasta_dict, fastq_dict):
+
+    string = ''
+    for p in fastq_dict:
+        for x in fasta_dict:
+            matches = border_algo(fasta_dict[x], fastq_dict[p])
+            for i in matches:
+                string += output(x, p, i, fastq_dict[p]) + '\n'
+    
+    return string
 
 def main():
+
+    with open('src/simple_fasta.txt', 'r') as f:
+        fasta_dict = fasta_func(f)
+    with open('src/simple_fastq.txt', 'r') as q:
+        fastq_dict = fastq_func(q)
+
+    print(runner(fasta_dict, fastq_dict))
+
+
+    '''
     argparser = argparse.ArgumentParser(
         description="Exact matching in linear time")
     argparser.add_argument("genome", type=argparse.FileType('r'))
@@ -48,20 +67,13 @@ def main():
    #translate files into dicts
     fasta_dict = fasta_func(args.genome)
     fastq_dict = fastq_func(args.reads)
-    
-    #Test
-    # print(border_algo('ABABABAA','AB'))
-    # print(border_algo('ABABABAA',''))
-    # print(border_algo('',''))
-    # print(border_algo('AAAA','B'))
-    # print(border_algo('AAAA','A'))
 
     #loop through all entries of the dicts and call the naive algorithm
     for p in fastq_dict:
         for x in fasta_dict:
             matches = border_algo(fasta_dict[x], fastq_dict[p])
             for i in matches:
-                output(x, p, i, fastq_dict[p])
+                output(x, p, i, fastq_dict[p]) '''
 
 if __name__ == '__main__':
     main()

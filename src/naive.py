@@ -20,7 +20,16 @@ def output(x_name, p_name, i, p):
     
     return print(p_name, x_name, i, f'{str(len(p))}M', p, sep = '\t')
     
+def naive_runner(fasta_dict, fastq_dict):
 
+    string = ''
+    for p in fastq_dict:
+        for x in fasta_dict:
+            matches = naive_align(fasta_dict[x], fastq_dict[p])
+            for i in matches:
+                string += output(x, p, i, fastq_dict[p]) + '\n'
+    
+    return string
 
 def main():
     # OBS only works with exact matches

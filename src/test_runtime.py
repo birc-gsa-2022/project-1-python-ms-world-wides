@@ -1,8 +1,10 @@
 from sequence_generator import genome_sequence_generator
-from lin import
-from naive import 
+from lin import lin_runner
+from naive import naive_runner
 #try
 # test for naive uses no more time than O(nm)
+
+
 
 #check 
 # Remember to explain your choice of test data. 
