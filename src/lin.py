@@ -8,7 +8,7 @@ def border_algo(x,p):
     #edge case
     if p == "" or x == "":
         return []
-    #crate string
+    #create string
     jointSeq = '$'.join((p,x))
     #built border array
     ba = [0]*len(jointSeq)
@@ -27,10 +27,10 @@ def border_algo(x,p):
 
     #filter matches with length of pattern
     result = []  
-    for i in range(0, len(x)):
-        border_length = ba[i+len(p)+1] # ba[j]
+    for i in range(1, len(x)+1):
+        border_length = ba[i+len(p)]
         if border_length == len(p):
-            result.append(i-len(p)+2) # does this work?
+            result.append(i-len(p)+1)
     return result
 
 
@@ -50,16 +50,7 @@ def lin_runner(fasta_dict, fastq_dict):
     return string
 
 def main():
-
-    with open('src/simple_fasta.txt', 'r') as f:
-        fasta_dict = fasta_func(f)
-    with open('src/simple_fastq.txt', 'r') as q:
-        fastq_dict = fastq_func(q)
-
-    print(lin_runner(fasta_dict, fastq_dict))
-
-
-    '''
+    
     argparser = argparse.ArgumentParser(
         description="Exact matching in linear time")
     argparser.add_argument("genome", type=argparse.FileType('r'))
@@ -70,12 +61,8 @@ def main():
     fasta_dict = fasta_func(args.genome)
     fastq_dict = fastq_func(args.reads)
 
-    #loop through all entries of the dicts and call the naive algorithm
-    for p in fastq_dict:
-        for x in fasta_dict:
-            matches = border_algo(fasta_dict[x], fastq_dict[p])
-            for i in matches:
-                output(x, p, i, fastq_dict[p]) '''
+    print(lin_runner(fasta_dict, fastq_dict))
+
 
 if __name__ == '__main__':
     main()
