@@ -29,15 +29,15 @@ def cleanup_fasta(fasta_file):
     return name
 
 
-def genome_sequence_generator(genome_file, seq_length, s, type):
+def genome_sequence_generator(genome_file, seq_length, s, type, name):
     '''Function that takes a gzipped genome file to generate a sequence of length n from
     the genome sequence between the random (with seed s) index i and i+n.'''
 
     sequence_list = []
     if type == 'fasta':
-        sequence_list.append(f'>fastaname_len{seq_length}\n')
+        sequence_list.append(f'>{name}_len{seq_length}\n')
     elif type == 'fastq':
-        sequence_list.append(f'@fastqname_len{seq_length}\n')
+        sequence_list.append(f'@{name}_len{seq_length}\n')
 
     f = gzip.open(genome_file, 'rt')
     lines = f.readlines()[0]
@@ -57,14 +57,14 @@ def genome_sequence_generator(genome_file, seq_length, s, type):
         return sequence_list
 
     
-def random_sequence_generator(length, s, type, uniform = False, uni_index = 0):
+def random_sequence_generator(length, s, type, name, uniform = False, uni_index = 0):
     '''Function that randomize , using seed s, a sequence of bases with given length.
     If uniform is set to True, the sequence will be of a single base according to uni_index.'''
     sequence_list = []
     if type == 'fasta':
-        sequence_list = f'>fastaname_len{length}\n'
+        sequence_list = f'>{name}_len{length}\n'
     elif type == 'fastq':
-        sequence_list = f'@fastqname_len{length}\n'
+        sequence_list = f'@{name}_len{length}\n'
     else:
         sequence_list = ''
 
@@ -86,9 +86,9 @@ def main():
     newname = 'src/sample_sequence.gz'
 
     # type = 'fasta'
-    # gsg = genome_sequence_generator(newname, 20, 1, type)
+    # gsg = genome_sequence_generator(newname, 20, 1, type, name)
     # print(gsg)
-    # rsg = random_sequence_generator(20, 1, type, uniform = True, uni_index = 1)
+    # rsg = random_sequence_generator(20, 1, type, name, uniform = True, uni_index = 1)
     # print(rsg)
 
 

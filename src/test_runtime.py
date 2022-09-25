@@ -1,3 +1,4 @@
+from re import I
 from sequence_generator import genome_sequence_generator
 from fasta_dict import fasta_func
 from fastq_dict import fastq_func
@@ -9,11 +10,19 @@ from naive import naive_runner
 # have the same seed as length?
 
 def main():
-    fasta_seq = genome_sequence_generator('src/sample_sequence.gz', 50, 1, 'fasta')
-    fastq_seq = genome_sequence_generator('src/sample_sequence.gz', 2, 2, 'fastq')
+    fasta_seq = []
+    fastq_seq = []
+    for i in range(2):
+        fasta_seq += genome_sequence_generator('src/sample_sequence.gz', 50, i, 'fasta', f'seq{i+1}')
+        fastq_seq += genome_sequence_generator('src/sample_sequence.gz', 3, i+5, 'fastq', f'read{i+1}')
+
+    print(fasta_seq)
+    print(fastq_seq)
 
     fasta_d = fasta_func(fasta_seq)
+    print(fasta_d)
     fastq_d = fastq_func(fastq_seq)
+    print(fastq_d)
     print('Lin:')
     print(lin_runner(fasta_d, fastq_d))
     print('Naive')
