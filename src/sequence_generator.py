@@ -29,10 +29,17 @@ def cleanup_fasta(fasta_file):
     return name
 
 
-def genome_sequence_generator(genome_file, seq_length, s):
+def genome_sequence_generator(genome_file, seq_length, s, type):
     '''Function that takes a gzipped genome file to generate a sequence of length n from
     the genome sequence between the random (with seed s) index i and i+n.'''
     
+    if type == 'fasta':
+        sequence = '>fastaname\n'
+    elif type == 'fastq':
+        sequence = '@fastqname\n'
+    else:
+        sequence = ''
+
     f = gzip.open(genome_file, 'rt')
     lines = f.readlines()[0]
 
@@ -46,7 +53,7 @@ def genome_sequence_generator(genome_file, seq_length, s):
         random.seed(s)
 
         start = random.randint(0,file_len-seq_length)
-        sequence = lines[start:start+seq_length]
+        sequence += lines[start:start+seq_length]
 
         return sequence
 
@@ -72,7 +79,8 @@ def main():
 
     #newname = 'src/sample_sequence.gz'
 
-    # gsg = genome_sequence_generator(newname, 20, 1)
+    # type = 'fasta'
+    # gsg = genome_sequence_generator(newname, 20, 1, type)
     # print(gsg)
     # rsg = random_sequence_generator(20, 1, uniform = True, uni_index = 1)
     # print(rsg)
