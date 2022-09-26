@@ -38,7 +38,7 @@ def main():
     fasta_dict = fasta_func(args.genome)
     fastq_dict = fastq_func(args.reads)
 
-    print(naive_runner(fasta_dict, fastq_dict), end = '')
+    print(naive_runner(fasta_dict, fastq_dict))
 
 if __name__ == '__main__':
     main()
