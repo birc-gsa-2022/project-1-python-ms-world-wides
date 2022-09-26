@@ -16,11 +16,14 @@ def naive_align(x, p):
     
 def naive_runner(fasta_dict, fastq_dict):
 
+    l = []
     for p_key, p_val in fastq_dict.items():
         for x_key, x_val in fasta_dict.items():
             matches = naive_align(x_val, p_val)
             for i in matches:
-                print('\t'.join([x_key, p_key, str(i), f'{str(len(p_val))}M', p_val]))
+                l.append('\t'.join([x_key, p_key, str(i), f'{str(len(p_val))}M', p_val]))
+    
+    return '\n'.join(l)
 
 def main():
 
@@ -35,7 +38,7 @@ def main():
     fasta_dict = fasta_func(args.genome)
     fastq_dict = fastq_func(args.reads)
 
-    naive_runner(fasta_dict, fastq_dict)
+    print(naive_runner(fasta_dict, fastq_dict), end = '')
 
 if __name__ == '__main__':
     main()
