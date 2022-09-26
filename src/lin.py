@@ -44,7 +44,7 @@ def lin_runner(fasta_dict, fastq_dict):
         for x_key, x_val in fasta_dict.items():
             matches = border_algo(x_val, p_val)
             for i in matches:
-                l.append('\t'.join([x_key, p_key, str(i), f'{str(len(p_val))}M', p_val]))
+                l.append('\t'.join([p_key, x_key, str(i), f'{str(len(p_val))}M', p_val]))
     
     return '\n'.join(l)
 
