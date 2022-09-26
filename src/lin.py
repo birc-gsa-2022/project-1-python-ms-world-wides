@@ -35,16 +35,15 @@ def border_algo(x,p):
 
 #prints the data in a simple sam-format
 def output(x_name, p_name, i, p):
-    return '\t'.join([p_name, x_name, str(i), f'{str(len(p))}M', p])
+    return 
 
 def lin_runner(fasta_dict, fastq_dict):
 
-    string = ''
     for p_key, p_val in fastq_dict.items():
         for x_key, x_val in fasta_dict.items():
             matches = border_algo(x_val, p_val)
             for i in matches:
-                string += output(x_key, p_key, i, p_val) + '\n'
+                print('\t'.join([x_key, p_key, str(i), f'{str(len(p_val))}M', p_val]))
     
     return string
 
@@ -60,7 +59,7 @@ def main():
     fasta_dict = fasta_func(args.genome)
     fastq_dict = fastq_func(args.reads)
 
-    print(lin_runner(fasta_dict, fastq_dict), end='')
+    lin_runner(fasta_dict, fastq_dict)
 
 if __name__ == '__main__':
     main()
