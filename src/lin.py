@@ -10,9 +10,11 @@ def border_algo(x,p):
         return []
     #create string
     jointSeq = '$'.join((p,x))
-    #built border array
+    #build border array
     ba = [0]*len(jointSeq)
     
+    p_len = len(p)
+    result = []
     #otherwise run trough seq
     for i in range(1, len(jointSeq)):
         b = ba[i-1]
@@ -22,15 +24,12 @@ def border_algo(x,p):
         #if matches
         if(jointSeq[i]==jointSeq[b]):
             ba[i] = b + 1
+            # Add to result already in the first loop to reduce runtime
+            if b + 1 == p_len and i >= p_len:
+                result.append(i-2*len(p)+1)
         else:
             ba[i] = 0
 
-    #filter matches with length of pattern
-    result = []  
-    for i in range(1, len(x)+1):
-        border_length = ba[i+len(p)]
-        if border_length == len(p):
-            result.append(i-len(p)+1)
     return result
 
 
@@ -61,8 +60,7 @@ def main():
     fasta_dict = fasta_func(args.genome)
     fastq_dict = fastq_func(args.reads)
 
-    return lin_runner(fasta_dict, fastq_dict)
-
+    print(lin_runner(fasta_dict, fastq_dict), end='')
 
 if __name__ == '__main__':
     main()
