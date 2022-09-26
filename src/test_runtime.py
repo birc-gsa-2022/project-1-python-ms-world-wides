@@ -38,7 +38,7 @@ def change_fasta_length(fastqlen, iterations):
         runtime_naive.append(executionTime_naive)
 
     return(range(0,1000,10), runtime_lin, runtime_naive)
-
+'''
 def change_fastq_length(fastalen, iterations):
     fasta_seq = []
     fastq_seq = []
@@ -67,38 +67,23 @@ def change_fastq_length(fastalen, iterations):
         runtime_naive.append(executionTime_naive)
 
     return(range(0,100,1), runtime_lin, runtime_naive)
-
-def plot_runtime(fastalen, fastqlen, iterations):
+'''
+def plot_runtime(fastqlen1, fastqlen2, iterations):
     #plot increasing fasta length
 
 
-    x, runtime_lin, runtime_naive = change_fasta_length(fastqlen, iterations)
-    #expected_naive_fa = list(np.array(x)*fastqlen)
-    #expected_lin_fa = list(np.array(x)+fastqlen)
-
+    x, runtime_lin, runtime_naive = change_fasta_length(fastqlen1, iterations)
     plt.plot(x, runtime_lin,color="blue")
     plt.plot(x, runtime_naive, color="red")
-    #plt.plot(x, expected_naive_fa, color="pink" )
-    #plt.plot(x, expected_lin_fa, color="green" )
-    plt.show()
     
-    #plot increasing fastq length
-    x, runtime_lin, runtime_naive = change_fastq_length(fastalen, iterations)
-    #expected_naive_fq = list(np.array(x)*fastalen)
-    #expected_lin_fq = list(np.array(x)+fastalen)
-
-
-    plt.plot(x, runtime_lin, color="blue")
-    plt.plot(x, runtime_naive, color="red")
-    #plt.plot(x, expected_naive_fq, color="pink" )
-    #plt.plot(x, expected_lin_fq, color="green" )
+    x, runtime_lin, runtime_naive = change_fasta_length(fastqlen2, iterations)
+    plt.plot(x, runtime_lin, color="pink")
+    plt.plot(x, runtime_naive, color="green")
 
     plt.show()
-
-
 
 def main():
-    plot_runtime(1000, 10, 10)
+    plot_runtime(10, 50, 10)
 # test for naive uses no more time than O(nm)
 
 
