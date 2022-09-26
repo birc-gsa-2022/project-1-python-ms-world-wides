@@ -44,8 +44,6 @@ def lin_runner(fasta_dict, fastq_dict):
             matches = border_algo(x_val, p_val)
             for i in matches:
                 print('\t'.join([x_key, p_key, str(i), f'{str(len(p_val))}M', p_val]))
-    
-    return string
 
 def main():
     
