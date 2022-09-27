@@ -62,11 +62,11 @@ def random_sequence_generator(length, s, type, name, uniform = False, uni_index 
     If uniform is set to True, the sequence will be of a single base according to uni_index.'''
     sequence_list = []
     if type == 'fasta':
-        sequence_list = f'>{name}_len{length}\n'
+        sequence_list.append(f'>{name}_len{length}\n')
     elif type == 'fastq':
-        sequence_list = f'@{name}_len{length}\n'
+        sequence_list.append(f'@{name}_len{length}\n')
     else:
-        sequence_list = ''
+        sequence_list.append('')
 
     alpha = ['a','t','c', 'g']
 
