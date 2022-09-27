@@ -117,6 +117,10 @@ The linear should have linear runtime. By doubling m the linear time should move
 
 To compare the naive to the linear border algorithm, the same input data should preferably be used. We therefore used the genome sequence generator and varying the length n of x with constant length m of p, and varying m with constant n respectively.
 
+Varying the length n of x with constant length m of p :
+
+![](figs/Figure_1.jpg)
+
 You can insert pictures here like this:
 
 ```
