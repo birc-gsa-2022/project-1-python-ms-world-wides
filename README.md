@@ -119,7 +119,7 @@ To compare the naive to the linear border algorithm, the same input data should 
 
 Varying the length n of x with constant length m of p :
 
-![](figs/Figure_1.jpg)
+![](figs/Figure_1.png)
 
 You can insert pictures here like this:
 
