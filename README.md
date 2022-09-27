@@ -100,7 +100,7 @@ We encountered some issues when trying to implement testing on the linear and na
 
 For example, we decided that the randomly generated test sequences should be given as a list of strings rather than as text files, which we had previously tested on. However, the option to run text files by parsing through the terminal should also be available. A function for running the necessary functions outside of their original scripts was therefore created, while the main function in the script was kept to work with argparse.
 
-To verify the correctness using as realistic data as possible we downloaded the genome of drosophila melanogaster from ncbi. However, we realized that processing all of it was an unnecessarily time consuming task. Therefore a section of 1000 lines of sequence was chosen and any fasta headers removed to give a clean sequence template to copy sections from for testing. For more extensive testing with longer sequences a larger selection of lines would be required. In hindsight, even though this gives a realistic time frame of alignment against a genome, creating functions for preprocessing took a bit too much time from the rest of the project.
+To verify the correctness using as realistic data as possible we downloaded the genome of drosophila melanogaster from NCBI (https://www.ncbi.nlm.nih.gov/). However, we realized that processing all of it was an unnecessarily time consuming task. Therefore a section of 1000 lines of sequence was chosen and any fasta headers removed to give a clean sequence template to copy sections from for testing. For more extensive testing with longer sequences a larger selection of lines would be required. In hindsight, even though this gives a realistic time frame of alignment against a genome, creating functions for preprocessing took a bit too much time from the rest of the project.
 
 
 ### Experiments validating the running time.
@@ -111,23 +111,22 @@ For this section, you should address the following:
 
 A random sequence generator was created. This combines the four bases in random order according to a given seed. The option of a uniform base sequence is also given. Uniform sequences with the same base for p and x is the worst case for the naive algorithm since it runs through p for every index in x, due to p matching everywhere on x (O(nm). The best case input for the naive algorithm would be a mismatch at the first letter of p for every letter in x. This could be implemented by having uniform sequences for p and x but with different bases (O(n)).
 
+#Include graph for naive:
+ random 
+ x = A^n, p = B^m 
+ x = A^n, p = A^m
+
+
 * An experiment that verifies that your implementations of `lin` use no more time than O(n+m) to find all occurrences of a given pattern in a text. Remember to explain your choice of test data. What are “best” and “worst” case inputs?
 
-The linear should have linear runtime. By doubling m the linear time should move up.
+The linear should have linear runtime. By increasing m or n the slope increases.
+#Include graph for naive:
+ random 
+ x = A^n, p = B^m 
+ x = A^n, p = A^m
 
-To compare the naive to the linear border algorithm, the same input data should preferably be used. We therefore used the genome sequence generator and varying the length n of x with constant length m of p, and varying m with constant n respectively.
+To compare the naive to the linear border algorithm, the same input data should preferably be used. We therefore used the genome sequence generator and varying the length n (range between length 0 and 50.000) of x with constant length m [3, 100] of p.
 
 Varying the length n of x with constant length m of p :
 
 ![](figs/Figure_1.png)
-
-You can insert pictures here like this:
-
-```
-![](path/to/fig)
-```
-
-I am not ready to share my own results yet, so I will just show you a fast scooter.
-
-![](figs/scooter.jpg)
-
