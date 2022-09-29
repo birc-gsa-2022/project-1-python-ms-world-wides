@@ -4,7 +4,7 @@ from fastq_dict import fastq_func
 
 def naive_align(x, p):
 
-    if len(p) == 0 or len(x) == 0:
+    if len(p) == 0 or len(x) == 0 or (len(p) > len(x)):
         return []
 
     match_indexes = []
