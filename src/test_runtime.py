@@ -1,14 +1,10 @@
 import time
-from turtle import color
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from sequence_generator import genome_sequence_generator, random_sequence_generator
 from fasta_dict import fasta_func
 from fastq_dict import fastq_func
 from lin import lin_runner
 from naive import naive_runner
-import numpy as np
-from math import log
-
 
 def change_fasta_length(fastqlen, iterations):
     runtime_lin = {}
