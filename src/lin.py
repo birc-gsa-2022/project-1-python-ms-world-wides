@@ -6,7 +6,7 @@ from fastq_dict import fastq_func
 
 def border_algo(x,p):
     #edge case
-    if len(p) == 0 or len(x) == 0:
+    if len(p) == 0 or len(x) == 0 or (len(p) > len(x)):
         return []
     #create string
     jointSeq = '$'.join((p,x))
