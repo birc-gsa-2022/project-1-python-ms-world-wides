@@ -84,7 +84,11 @@ Once you have implemented the tools, fill out the report below.
 
 ### Insights you may have had while implementing and comparing the algorithms. 
 
-*Describe this here.*
+Implementing the linear algorithm using border arrays seemed to work when running using the given simple_fasta and simple_fastq examples. However, it was realized quite late that it only worked correctly with patterns of length 3 (the first few outputs). There were some mistakes with the returned indexing of the matches.
+
+The index to be returned should reflect the start of the match in the sequence x. However, the border array reflects the pattern p joined with x using a sentinel. Getting the indexing right by adjusting for the initial p, the sentinel and then adjusting to reflect the index at the start rather than end of the match made the solution a bit of a mess. Messy code (result.append(i-len(p)+1)) with multiple variables added and subtraced increases the likelihood of mistakes. The solution should therefore ideally be modified to clean this up. 
+
+Furthermore, indexing from 1 causes some confusion when the python indexing starts at 0. Adding these +1 in many cases makes it easy to trip up on where they should and should not be added. It forces the programmer to be very wary of which index and value means what.
 
 ### Problems encountered if any. 
 
@@ -92,7 +96,12 @@ Once you have implemented the tools, fill out the report below.
 
 ### Experiments that verifies the correctness of your implementations.
 
-*Describe this here.*
+We encountered some issues when trying to implement testing on the linear and naive algorithms. Even though they could be run with ease in the scripts in which they were defined with one case at a time, combining new random sequences with the algorithms required some modifications on the previous scripts, and addition of new functions.
+
+For example, we decided that the randomly generated test sequences should be given as a list of strings rather than as text files, which we had previously tested on. However, the option to run text files by parsing through the terminal should also be available. A function for running the necessary functions outside of their original scripts was therefore created, while the main function in the script was kept to work with argparse.
+
+To verify the correctness using as realistic data as possible we downloaded the genome of drosophila melanogaster from NCBI (https://www.ncbi.nlm.nih.gov/). However, we realized that processing all of it was an unnecessarily time consuming task. Therefore a section of 1000 lines of sequence was chosen and any fasta headers removed to give a clean sequence template to copy sections from for testing. For more extensive testing with longer sequences a larger selection of lines would be required. In hindsight, even though this gives a realistic time frame of alignment against a genome, creating functions for preprocessing took a bit too much time from the rest of the project.
+
 
 ### Experiments validating the running time.
 
@@ -100,15 +109,26 @@ For this section, you should address the following:
 
 * An experiment that verifies that your implementation of `naive` uses no more time than O(nm) to find all occurrences of a given pattern in a text. Remember to explain your choice of test data. What are “best” and “worst” case inputs? 
 
+A random sequence generator was created. This combines the four bases in random order according to a given seed. The option of a uniform base sequence is also given. Uniform sequences with the same base for p and x is the worst case for the naive algorithm since it runs through p for every index in x, due to p matching everywhere on x (O(nm)). The best case input for the naive algorithm would be a mismatch at the first letter of p for every letter in x. This could be implemented by having uniform sequences for p and x but with different bases (O(n)).
+In the following plot we compared the runtime of the algorithm for a best, worst and average case. The algorithm was run with a pattern of length 10 and an increasing length of the sequence (n).
+
+![](figs/naive.png)
+
+The runtime of the worst case for the naive algorithm is significantly higher than the runtime of the best and average case. The runtime of the best and average case do not show a significant difference. There are 4 possible random bases for the average case, so the likelihood of a mismatch at each base is therefore 0.25. We expect the runtime to reflect this by a slope closer to that of the worst case than what we saw in our plot. 
+
 * An experiment that verifies that your implementations of `lin` use no more time than O(n+m) to find all occurrences of a given pattern in a text. Remember to explain your choice of test data. What are “best” and “worst” case inputs?
 
-You can insert pictures here like this:
+The linear should have linear runtime O(n+m). By increasing m or n the slope increases.
 
-```
-![](path/to/fig)
-```
+![](figs/linear.png)
 
-I am not ready to share my own results yet, so I will just show you a fast scooter.
+The runtime of the worst case (worst case for the naive, in the linear plot for comparison) is significantly higher than the runtime of the best and average case. This is due to the fact that in every place a match will be reported which costs extra time Z -> O(n+m+Z).
+The runtime of the best case (best case for the naive, in the linear plot for comparison) is lower, because no match needs to be reported.
 
-![](figs/scooter.jpg)
+Comparing the two scales of the two plots we see that the linear alorithm is faster then the naive algorithm.
 
+To compare the naive to the linear border algorithm, the same input data should preferably be used. We therefore used the genome sequence generator and varying the length n (range between length 0 and 50000) of x with constant length m [3, 100] of p.
+
+Varying the length n of x with constant length m of p :
+
+![](figs/Figure_1.png)
