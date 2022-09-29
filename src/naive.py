@@ -4,6 +4,9 @@ from fastq_dict import fastq_func
 
 def naive_align(x, p):
 
+    if len(p) == 0 or len(x) == 0:
+        return []
+
     match_indexes = []
     for i in range(len(x)-len(p)+1):
         for j, el_p in enumerate(p):
