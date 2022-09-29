@@ -109,23 +109,25 @@ For this section, you should address the following:
 
 * An experiment that verifies that your implementation of `naive` uses no more time than O(nm) to find all occurrences of a given pattern in a text. Remember to explain your choice of test data. What are “best” and “worst” case inputs? 
 
-A random sequence generator was created. This combines the four bases in random order according to a given seed. The option of a uniform base sequence is also given. Uniform sequences with the same base for p and x is the worst case for the naive algorithm since it runs through p for every index in x, due to p matching everywhere on x (O(nm). The best case input for the naive algorithm would be a mismatch at the first letter of p for every letter in x. This could be implemented by having uniform sequences for p and x but with different bases (O(n)).
+A random sequence generator was created. This combines the four bases in random order according to a given seed. The option of a uniform base sequence is also given. Uniform sequences with the same base for p and x is the worst case for the naive algorithm since it runs through p for every index in x, due to p matching everywhere on x (O(nm)). The best case input for the naive algorithm would be a mismatch at the first letter of p for every letter in x. This could be implemented by having uniform sequences for p and x but with different bases (O(n)).
+In the following plot we compared the runtime of the algorithm for a best, worst and average case. The algorithm was run with a pattern of length 10 and an increasing length of the sequence (n).
 
-#Include graph for naive:
- random 
- x = A^n, p = B^m 
- x = A^n, p = A^m
+![](figs/naive.png)
 
+The runtime of the worst case for the naive algorithm is significantly higher than the runtime of the best and average case. The runtime of the best and average case do not show a significant difference. There are 4 possible random bases for the average case, so the likelihood of a mismatch at each base is therefore 0.25. We expect the runtime to reflect this by a slope closer to that of the worst case than what we saw in our plot. 
 
 * An experiment that verifies that your implementations of `lin` use no more time than O(n+m) to find all occurrences of a given pattern in a text. Remember to explain your choice of test data. What are “best” and “worst” case inputs?
 
-The linear should have linear runtime. By increasing m or n the slope increases.
-#Include graph for naive:
- random 
- x = A^n, p = B^m 
- x = A^n, p = A^m
+The linear should have linear runtime O(n+m). By increasing m or n the slope increases.
 
-To compare the naive to the linear border algorithm, the same input data should preferably be used. We therefore used the genome sequence generator and varying the length n (range between length 0 and 50.000) of x with constant length m [3, 100] of p.
+![](figs/linear.png)
+
+The runtime of the worst case (worst case for the naive, in the linear plot for comparison) is significantly higher than the runtime of the best and average case. This is due to the fact that in every place a match will be reported which costs extra time Z -> O(n+m+Z).
+The runtime of the best case (best case for the naive, in the linear plot for comparison) is lower, because no match needs to be reported.
+
+Comparing the two scales of the two plots we see that the linear alorithm is faster then the naive algorithm.
+
+To compare the naive to the linear border algorithm, the same input data should preferably be used. We therefore used the genome sequence generator and varying the length n (range between length 0 and 50000) of x with constant length m [3, 100] of p.
 
 Varying the length n of x with constant length m of p :
 
