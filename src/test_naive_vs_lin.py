@@ -13,7 +13,7 @@ def test_special():
     assert(sorted(naive_runner(a10_fasta,a1_fastq))==sorted(lin_runner(a10_fasta,a1_fastq)))
     assert(sorted(naive_runner(a10_fasta,empty_fastq))==sorted(lin_runner(a10_fasta,empty_fastq)))
     assert(sorted(naive_runner(a1_fasta,a1_fastq))==sorted(lin_runner(a1_fasta,a1_fastq)))
-    #assert(sorted(naive_runner(empty_fasta,empty_fastq))==sorted(lin_runner(empty_fasta,empty_fastq)))
+    assert(sorted(naive_runner(empty_fasta,empty_fastq))==sorted(lin_runner(empty_fasta,empty_fastq)))
     assert(sorted(naive_runner(empty_fasta,a1_fastq))==sorted(lin_runner(empty_fasta,a1_fastq)))
 
 

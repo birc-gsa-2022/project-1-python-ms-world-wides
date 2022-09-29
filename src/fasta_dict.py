@@ -1,11 +1,15 @@
 import argparse
 
 def fasta_func(fastafile):
+    '''Function that can take file or list of strings and return dictionary
+    with fasta sequence coupled with its sequence name'''
 
     sequence = []
     name = ''
     fasta_dict = {}
     for line in fastafile:
+        if type(line) == list:
+            line = line[0]
         if line.startswith('>'):
             if name != '':
                 fasta_dict[name] = ''.join(sequence)
