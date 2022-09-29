@@ -9,21 +9,6 @@ from naive import naive_runner
 import numpy as np
 from math import log
 
-def ntimesm(n,m):
-    executionTime_naive = []
-    for i in range(n):
-        startTime_lin = time.time()
-        time.sleep(i*m)
-        executionTime_naive.append((time.time() - startTime_lin))
-    return executionTime_naive
-
-def nplusm(n,m):
-    executionTime_lin = []
-    for i in range(n):
-        startTime_lin = time.time()
-        time.sleep(i+m)
-        executionTime_lin.append((time.time() - startTime_lin))
-    return executionTime_lin
 
 def change_fasta_length(fastqlen, iterations):
     runtime_lin = {}
@@ -57,7 +42,7 @@ def change_fasta_length(fastqlen, iterations):
 
     return runtime_lin, runtime_naive
 
-def change_fasta_length_uniform(fastqlen, iterations, matching = True):
+def change_fasta_length_random(fastqlen, iterations, uniform, matching = True):
     runtime_lin = {}
     runtime_naive = {}
 
@@ -66,15 +51,15 @@ def change_fasta_length_uniform(fastqlen, iterations, matching = True):
     else:
         index = 1
 
-    fastq_seq = random_sequence_generator(fastqlen, 0, 'fastq', f'read{2}', uniform = True, uni_index = index)
+    fastq_seq = random_sequence_generator(fastqlen, 0, 'fastq', f'read{2}', uniform, uni_index = index)
     # sequence_lengths = range(1000,50000,100)
-    sequence_lengths = range(1000,20000,50)
+    sequence_lengths = range(10,50000,1000)
 
     for j in sequence_lengths:
         fasta_list = []
 
         for i in range(1,iterations+1):
-            l = random_sequence_generator(j, 0, 'fasta', f'seq{i}', uniform = True) # [name, seq]
+            l = random_sequence_generator(j, 0, 'fasta', f'seq{i}', uniform) # [name, seq]
             fasta_list += l
         # call function once with multiple fasta
         fasta_d = fasta_func(fasta_list) # dict of multiple fasta, same length
@@ -94,91 +79,54 @@ def change_fasta_length_uniform(fastqlen, iterations, matching = True):
     
     return runtime_lin, runtime_naive
 
-'''
-def change_fastq_length(fastalen, iterations):
-    fasta_seq = []
-    fastq_seq = []
-    runtime_lin = []
-    runtime_naive = []
-
-    fasta_seq += genome_sequence_generator('src/sample_sequence.gz', fastalen, 1, 'fasta', f'seq{2}')
-
-    for j in range(0,100,1):
-        for i in range(iterations):
-            fastq_seq += genome_sequence_generator('src/sample_sequence.gz', j, i+5, 'fastq', f'read{i+1}')
-
-        fasta_d = fasta_func(fasta_seq)
-        fastq_d = fastq_func(fastq_seq)
-
-        # measure runtime linear algorithm
-        startTime_lin = time.time()
-        lin_runner(fasta_d, fastq_d)
-        executionTime_lin = (time.time() - startTime_lin)
-        runtime_lin.append(executionTime_lin)
-
-        # measure runtime naive algorithm
-        startTime_naive = time.time()
-        naive_runner(fasta_d, fastq_d)
-        executionTime_naive = (time.time() - startTime_naive)
-        runtime_naive.append(executionTime_naive)
-
-    return(range(0,100,1), runtime_lin, runtime_naive)
-'''
 def plot_runtime(fastqlen1, fastqlen2, iterations, type):
     #plot increasing fasta length
 
-    # ADD PLOT TITLES AND AXIS TITLES
-
     if type == "compare":
 
-        runtime_lin, runtime_naive = change_fasta_length(fastqlen1, iterations)
+        runtime_lin, runtime_naive = change_fasta_length_random(fastqlen1, iterations, False)
         plt.plot(runtime_lin.keys(), runtime_lin.values(), color="darkblue", label = f"Linear Algorithm with m = {fastqlen1}")
         plt.plot(runtime_naive.keys(), runtime_naive.values(), color="red", label = f"Naive Algorithm with m = {fastqlen1}")
 
-        runtime_lin, runtime_naive = change_fasta_length(fastqlen2, iterations)
+        runtime_lin, runtime_naive = change_fasta_length_random(fastqlen2, iterations, False)
         plt.plot(runtime_lin.keys(), runtime_lin.values(), color="lightblue", label = f"Linear Algorithm with m = {fastqlen2}")
         plt.plot(runtime_naive.keys(), runtime_naive.values(), color="pink", label = f"Naive Algorithm with m = {fastqlen2}")
+        plt.xlabel('Size of sequence x [bp]')
+        plt.ylabel('Time [s]')
+        plt.title(f'Comparing the runtimes of the naive and linear algorithms')
+        plt.legend(loc="upper left")
+        plt.show()
     else:
         # runtime_lin_rand, runtime_naive_rand = change_fasta_length(fastqlen1, iterations)
-        runtime_lin_wc, runtime_naive_wc = change_fasta_length_uniform(fastqlen1, iterations, matching = False)
-        plt.plot(runtime_lin_wc.keys(), runtime_lin_wc.values(), color="darkblue", label = f"Linear Algorithm with m = {fastqlen1}")
-        plt.plot(runtime_naive_wc.keys(), runtime_naive_wc.values(), color="red", label = f"Naive Algorithm with m = {fastqlen1}")
-        plt.title(f'Runtime of naive and linear algorithms with uniform but not matching sequences')
+        runtime_lin_wc, runtime_naive_wc = change_fasta_length_random(fastqlen1, iterations, True, matching = True)
+        runtime_lin_bc, runtime_naive_bc = change_fasta_length_random(fastqlen1, iterations, True, matching = False)
+        runtime_lin_rand, runtime_naive_rand = change_fasta_length_random(fastqlen1, iterations, False, matching = False)
 
+        plt.plot(runtime_naive_bc.keys(), runtime_naive_bc.values(),color="#0b8a2b", label = f"Naive Algorithm with m = {fastqlen1}, best case, x = a*n, p = b*m")
+        plt.plot(runtime_naive_rand.keys(), runtime_naive_rand.values(), color="#36169e", label = f"Naive Algorithm with m = {fastqlen1} and random sequences")
+        plt.plot(runtime_naive_wc.keys(), runtime_naive_wc.values(), color="#d63c75", label = f"Naive Algorithm with m = {fastqlen1}, worst case, x = a*n, p = a*m")
+        plt.title(f'Runtime of the naive algorithm')
+        plt.xlabel('Size of sequence x [bp]')
+        plt.ylabel('Time [s]')
+        
+        plt.legend(loc="upper left")
+        plt.show()
+        
+        plt.plot(runtime_lin_bc.keys(), runtime_lin_bc.values(),color="#0b8a2b", label = f"Linear Algorithm with m = {fastqlen1}, best case, x = a*n, p = b*m")
+        plt.plot(runtime_lin_rand.keys(), runtime_lin_rand.values(), color="#36169e", label = f"Linear Algorithm with m = {fastqlen1} and random sequences")
+        plt.plot(runtime_lin_wc.keys(), runtime_lin_wc.values(), color="#d63c75", label = f"Linear Algorithm with m = {fastqlen1}, worst case, x = a*n, p = a*m")
+        plt.title(f'Runtime of the linear algorithm')
+        plt.xlabel('Size of sequence x [bp]')
+        plt.ylabel('Time [s]')
 
-        # if type == "naive":
-        #     plt.plot(x, runtime_naive_bc,color="darkblue", label = "Niave Algorithm with m = 10, x = a^n, p = b^m")
-        #     plt.plot(x, runtime_naive_rand, color="red", label = "Naive Algorithm with m = 10 and random sequences")
-        #     plt.plot(x, runtime_naive_wc, color="pink", label = "Naive Algorithm with m = 10, x = a^n, p = a^m")
-
-        # if type == "lin":
-        #     plt.plot(x, runtime_lin_bc,color="darkblue", label = "Linear Algorithm with m = 10, x = a^n, p = b^m")
-        #     plt.plot(x, runtime_lin_rand, color="red", label = "Linear Algorithm with m = 10 and random sequences")
-        #     plt.plot(x, runtime_lin_wc, color="pink", label = "Linear Algorithm with m = 10, x = a^n, p = a^m")
-
-    plt.legend(loc="upper left")
-    plt.show()
+        plt.legend(loc="upper left")
+        plt.show()
     
 
 def main():
-    # plot_runtime(3, 100, 20, "compare")
-    plot_runtime(2,10,2, "naive")
-    # plot_runtime(10,10,10, "lin")
-# test for naive uses no more time than O(nm)
-
-
-    # check runtime for increasing fasta length
-
-
+    plot_runtime(10, 1000, 10, "compare")
+    # plot_runtime(10,10, 10, "")
 
 if __name__ == '__main__':
     main()
 
-#check 
-# best-case input:  x = A^n y = B^m
-# worst-case input: x = A^n y = A^m
-
-
-# test for lin use no more time than O(n+m)
-# Remember to explain your choice of test data.
-# What are “best” and “worst” case inputs?
